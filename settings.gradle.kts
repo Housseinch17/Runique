@@ -1,4 +1,6 @@
 pluginManagement {
+    //include the build conventions
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -20,4 +22,19 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Runique"
+//this is used for Type-Safe Module name instead of using project(":auth:domain")..
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+include(":auth:data")
+include(":auth:domain")
+include(":auth:presentation")
+include(":core:data")
+include(":core:domain")
+include(":core:database")
+include(":core:presentation:designsystem")
+include(":core:presentation:ui")
+include(":run:data")
+include(":run:domain")
+include(":run:presentation")
+include(":run:location")
+include(":run:network")
