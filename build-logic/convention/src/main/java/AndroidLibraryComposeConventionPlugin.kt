@@ -1,16 +1,16 @@
-import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.example.convention.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 
-class AndroidApplicationComposeConventionPlugin: Plugin<Project> {
+class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
-            //this means this convention plugin will contain the application plugin
+            //this means this convention plugin will contain the library plugin
             //and it's configurations
-            pluginManager.apply("runique.android.application")
-            val extension = extensions.getByType<ApplicationExtension>()
+            pluginManager.apply("runique.android.library")
+            val extension = extensions.getByType<LibraryExtension>()
             configureAndroidCompose(
                 commonExtension = extension
             )
