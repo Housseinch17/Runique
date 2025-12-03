@@ -30,7 +30,7 @@ room = "2.7.1"
 maps = "4.3.3"
 gmsLocation = "21.2.0"
 mapsUtils = "5.0.0"
-bson = "4.11.1"
+bson = "5.6.1"
 work = "2.9.0"
 kotlinx-serialization = "1.6.3"
 secretsPlugin = "2.0.1"
@@ -121,6 +121,7 @@ runique-android-application-compose = { id = "runique.android.application.compos
 runique-android-library = { id = "runique.android.library", version = "unspecified" }
 runique-android-library-compose = { id = "runique.android.library.compose", version = "unspecified" }
 runique-android-feature-ui = { id = "runique.android.feature.ui", version = "unspecified"}
+runique-android-room = { id = "runique.android.room", version = "unspecified"}
 
 [bundles]
 compose = [

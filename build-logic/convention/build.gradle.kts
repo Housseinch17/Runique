@@ -4,7 +4,7 @@ plugins {
 
 group = "com.example.runique.buildlogic"
 
-dependencies{
+dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
@@ -12,19 +12,19 @@ dependencies{
     compileOnly(libs.room.gradlePlugin)
 }
 
-gradlePlugin{
-    plugins{
-        register("androidApplication"){
+gradlePlugin {
+    plugins {
+        register("androidApplication") {
             id = "runique.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
-        register("androidApplicationCompose"){
+        register("androidApplicationCompose") {
             id = "runique.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
-        register("androidLibrary"){
+        register("androidLibrary") {
             id = "runique.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
@@ -39,6 +39,10 @@ gradlePlugin{
             implementationClass = "AndroidFeatureUiConventionPlugin"
         }
 
+        register("androidRoom") {
+            id = "runique.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
 
     }
 }
