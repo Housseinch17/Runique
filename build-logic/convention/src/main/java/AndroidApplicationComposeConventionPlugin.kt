@@ -9,7 +9,10 @@ class AndroidApplicationComposeConventionPlugin: Plugin<Project> {
         target.run {
             //this means this convention plugin will contain the application plugin
             //and it's configurations
-            pluginManager.apply("runique.android.application")
+            pluginManager.run{
+                apply("runique.android.application")
+                apply("org.jetbrains.kotlin.plugin.compose")
+            }
             val extension = extensions.getByType<ApplicationExtension>()
             configureAndroidCompose(
                 commonExtension = extension
