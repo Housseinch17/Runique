@@ -1,5 +1,6 @@
 package com.example.auth.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -57,16 +59,32 @@ fun RegisterRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
 
-    ObserveAsEvents(viewModel.events) { events->
-        when(events){
+    ObserveAsEvents(viewModel.events) { events ->
+        when (events) {
             RegisterEvents.LogIn -> {
                 keyboardController?.hide()
                 onSignInClick()
             }
+
             RegisterEvents.RegisterSuccessfully -> {
                 keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    R.string.registration_successful,
+                    Toast.LENGTH_LONG
+                ).show()
                 onSuccessfulRegistration()
+            }
+
+            is RegisterEvents.Error -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    events.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -216,7 +234,7 @@ fun PasswordRequirement(
                 CrossIcon
             },
             contentDescription = null,
-            tint = if(isValid) RuniqueGreen else RuniqueDarkRed
+            tint = if (isValid) RuniqueGreen else RuniqueDarkRed
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
