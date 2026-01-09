@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -80,6 +81,7 @@ fun GradientBackground(
             Column(
                 modifier = modifier
                     .fillMaxSize()
+                    .padding(top = 16.dp)
                     .then(
                         if (hasToolbar) {
                             Modifier
