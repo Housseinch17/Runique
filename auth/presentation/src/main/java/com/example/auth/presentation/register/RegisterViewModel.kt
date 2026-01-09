@@ -56,7 +56,7 @@ class RegisterViewModel(
 
     private fun register() {
         viewModelScope.launch {
-            _events.send(RegisterEvents.Register)
+            _events.send(RegisterEvents.RegisterSuccessfully)
         }
     }
 

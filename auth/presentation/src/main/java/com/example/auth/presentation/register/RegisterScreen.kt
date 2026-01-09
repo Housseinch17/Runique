@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -45,13 +46,31 @@ import com.example.core.presentation.designsystem.components.GradientBackground
 import com.example.core.presentation.designsystem.components.RuniqueActionButton
 import com.example.core.presentation.designsystem.components.RuniquePasswordTextField
 import com.example.core.presentation.designsystem.components.RuniqueTextField
+import com.example.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterRoot(
+    onSignInClick: () -> Unit,
+    onSuccessfulRegistration: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    ObserveAsEvents(viewModel.events) { events->
+        when(events){
+            RegisterEvents.LogIn -> {
+                keyboardController?.hide()
+                onSignInClick()
+            }
+            RegisterEvents.RegisterSuccessfully -> {
+                keyboardController?.hide()
+                onSuccessfulRegistration()
+            }
+        }
+    }
+
     RegisterScreen(
         state = state,
         onAction = viewModel::onAction,

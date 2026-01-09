@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.auth.presentation.register.RegisterRoot
+import androidx.navigation.compose.rememberNavController
 import com.example.core.presentation.designsystem.RuniqueTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RuniqueTheme {
-                RegisterRoot()
+                val navController = rememberNavController()
+                NavigationRoot(navController)
             }
         }
     }

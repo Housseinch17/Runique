@@ -1,6 +1,6 @@
 package com.example.auth.presentation.register
 
-interface RegisterEvents {
+sealed interface RegisterEvents {
     data object LogIn: RegisterEvents
-    data object Register: RegisterEvents
+    data object RegisterSuccessfully: RegisterEvents
 }
