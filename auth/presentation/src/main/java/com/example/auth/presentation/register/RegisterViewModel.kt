@@ -75,6 +75,12 @@ class RegisterViewModel(
             }
             when (result) {
                 is Result.Success -> {
+                    _state.update { newState->
+                        newState.copy(
+                            email = TextFieldValue(),
+                            password = TextFieldValue()
+                        )
+                    }
                     _events.send(RegisterEvents.RegisterSuccessfully)
                 }
 

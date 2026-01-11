@@ -53,13 +53,13 @@ fun NavGraphBuilder.auth(navHostController: NavHostController) {
                     }
                 },
                 onSuccessfulRegistration = {
-//                    navHostController.navigate(NavigationScreens.LogIn) {
-//                        popUpTo(NavigationScreens.Register) {
-//                            inclusive = true
-//                            saveState = true
-//                        }
-//                        restoreState = true
-//                    }
+                    navHostController.navigate(NavigationScreens.LogIn) {
+                        popUpTo(NavigationScreens.Register) {
+                            inclusive = true
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
                 },
             )
         }

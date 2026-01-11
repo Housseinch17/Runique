@@ -11,9 +11,10 @@ import org.koin.dsl.module
 
 object AuthInfoStoreQualifier :
     Qualifier by TypeQualifier(AuthInfoStoreQualifier::class)
+
 val coreDataModule = module {
     single<HttpClient> {
-        HttpClientFactory().build()
+        HttpClientFactory(get()).build()
     }
 
     single<SessionStorage> {

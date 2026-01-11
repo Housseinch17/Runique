@@ -14,7 +14,7 @@ class AuthRepositoryImpl(
         password: String
     ): EmptyDataResult<DataError.Network> {
         return httpClient.post<RegisterRequest, Unit>(
-            route = "/register",
+            route = BuildConfig.REGISTER_ROUTE,
             body = RegisterRequest(
                 email = email,
                 password = password
