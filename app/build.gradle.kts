@@ -45,6 +45,9 @@ dependencies {
     //Timber
     implementation(libs.timber)
 
+    //data store
+    implementation(libs.androidx.datastore.preferences)
+
     //Compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material.icons.extended)
@@ -71,5 +74,6 @@ dependencies {
     implementation(projects.run.data)
     implementation(projects.run.location)
     implementation(projects.run.network)
+
 
 }

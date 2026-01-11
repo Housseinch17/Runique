@@ -14,6 +14,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
 
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.bundles.koin)
 
     implementation(projects.core.domain)

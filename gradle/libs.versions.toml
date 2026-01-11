@@ -38,6 +38,7 @@ secretsPlugin = "2.0.1"
 playServicesMaps = "18.2.0"
 timber = "5.0.1"
 annotation = "1.9.1"
+datastorePreferences = "1.1.1"
 
 #Project versions
 projectApplicationId = "com.example.runique"
@@ -98,6 +99,7 @@ org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
