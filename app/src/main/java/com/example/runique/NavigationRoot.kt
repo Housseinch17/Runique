@@ -13,5 +13,6 @@ fun NavigationRoot(
         startDestination = NavigationGraphs.Auth
     ){
         auth(navHostController)
+        run(navHostController)
     }
 }

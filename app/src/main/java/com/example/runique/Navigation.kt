@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.auth.presentation.intro.IntroRoot
+import com.example.auth.presentation.login.LoginRoot
 import com.example.auth.presentation.register.RegisterRoot
 
 fun NavGraphBuilder.auth(navHostController: NavHostController) {
@@ -53,23 +54,44 @@ fun NavGraphBuilder.auth(navHostController: NavHostController) {
                     }
                 },
                 onSuccessfulRegistration = {
-                    navHostController.navigate(NavigationScreens.LogIn) {
-                        popUpTo(NavigationScreens.Register) {
+                    navHostController.navigate(NavigationScreens.LogIn)
+                },
+            )
+        }
+
+        composable<NavigationScreens.LogIn> {
+            LoginRoot(
+                onSignUpClick = {
+                    navHostController.navigate(NavigationScreens.Register) {
+                        popUpTo(NavigationScreens.LogIn) {
                             inclusive = true
                             saveState = true
                         }
                         restoreState = true
                     }
                 },
+                onLoginSuccess = {
+                    navHostController.navigate(NavigationGraphs.Auth) {
+                        popUpTo(NavigationGraphs.Auth) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
+    }
+}
 
-        composable<NavigationScreens.LogIn> {
+fun NavGraphBuilder.run(navHostController: NavHostController) {
+    navigation<NavigationGraphs.Run>(
+        startDestination = NavigationScreens.Run
+    ) {
+        composable<NavigationScreens.Run>{
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ) {
-                Text("Log I")
+            ){
+                Text("This is Run Screen!")
             }
         }
     }

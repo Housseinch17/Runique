@@ -12,4 +12,7 @@ sealed interface NavigationScreens {
 
     @Serializable
     data object LogIn : NavigationScreens
+
+    @Serializable
+    data object Run: NavigationScreens
 }

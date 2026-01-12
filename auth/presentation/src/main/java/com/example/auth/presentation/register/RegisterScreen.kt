@@ -98,7 +98,7 @@ fun RegisterRoot(
 @Composable
 fun RegisterScreen(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit,
+    onAction: (RegisterActions) -> Unit,
 ) {
     GradientBackground(hasToolbar = false) {
         Column(
@@ -131,7 +131,7 @@ fun RegisterScreen(
                         )
                     )
                 ) {
-                    onAction(RegisterAction.OnLoginClick)
+                    onAction(RegisterActions.OnLoginClick)
                 }
                 withLink(link = link) {
                     append(stringResource(R.string.login))
@@ -147,7 +147,7 @@ fun RegisterScreen(
             RuniqueTextField(
                 value = state.email,
                 onValueChanged = {
-                    onAction(RegisterAction.UpdateEmailValue(it))
+                    onAction(RegisterActions.UpdateEmailValue(it))
                 },
                 startIcon = EmailIcon,
                 endIcon = if (state.isEmailValid) {
@@ -163,11 +163,11 @@ fun RegisterScreen(
             RuniquePasswordTextField(
                 value = state.password,
                 onValueChanged = {
-                    onAction(RegisterAction.UpdatePasswordValue(it))
+                    onAction(RegisterActions.UpdatePasswordValue(it))
                 },
                 isPasswordVisible = state.isPasswordVisible,
                 onTogglePasswordVisibility = {
-                    onAction(RegisterAction.OnTogglePasswordVisibilityClick)
+                    onAction(RegisterActions.OnTogglePasswordVisibilityClick)
                 },
                 hint = stringResource(id = R.string.password),
                 title = stringResource(id = R.string.password),
@@ -210,7 +210,7 @@ fun RegisterScreen(
                 enabled = state.canRegister,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    onAction(RegisterAction.OnRegisterClick)
+                    onAction(RegisterActions.OnRegisterClick)
                 }
             )
         }

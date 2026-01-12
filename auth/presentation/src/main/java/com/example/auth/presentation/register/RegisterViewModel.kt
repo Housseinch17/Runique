@@ -27,13 +27,13 @@ class RegisterViewModel(
     private val _events = Channel<RegisterEvents>(Channel.UNLIMITED)
     val events = _events.receiveAsFlow()
 
-    fun onAction(action: RegisterAction) {
+    fun onAction(action: RegisterActions) {
         when (action) {
-            RegisterAction.OnLoginClick -> login()
-            RegisterAction.OnRegisterClick -> register()
-            RegisterAction.OnTogglePasswordVisibilityClick -> toggleClick()
-            is RegisterAction.UpdateEmailValue -> updateEmailValue(email = action.email)
-            is RegisterAction.UpdatePasswordValue -> updatePasswordValue(password = action.password)
+            RegisterActions.OnLoginClick -> login()
+            RegisterActions.OnRegisterClick -> register()
+            RegisterActions.OnTogglePasswordVisibilityClick -> toggleClick()
+            is RegisterActions.UpdateEmailValue -> updateEmailValue(email = action.email)
+            is RegisterActions.UpdatePasswordValue -> updatePasswordValue(password = action.password)
         }
     }
 
