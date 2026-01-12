@@ -3,6 +3,13 @@ package com.example.auth.presentation.login
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.domain.AuthRepository
+import com.example.auth.domain.UserDataValidator
+import com.example.auth.presentation.R
+import com.example.core.domain.util.DataError
+import com.example.core.domain.util.Result
+import com.example.core.presentation.ui.UiText
+import com.example.core.presentation.ui.asUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,7 +17,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel(
+    private val authRepository: AuthRepository,
+    private val userDataValidator: UserDataValidator
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
@@ -28,15 +38,46 @@ class LoginViewModel() : ViewModel() {
     }
 
     private fun login() {
-        val email = _state.value.email
-        val password = _state.value.password
+        _state.update { newState ->
+            newState.copy(isLoggingIn = true)
+        }
+        val email = _state.value.email.text
+        val password = _state.value.password.text
+        viewModelScope.launch {
+            val result = authRepository.login(
+                email = email,
+                password = password
+            )
+            _state.update { newState ->
+                newState.copy(isLoggingIn = false)
+            }
+            when (result) {
+                is Result.Error -> {
+                    if (result.error == DataError.Network.UNAUTHORIZED) {
+                        _events.send(LoginEvents.Error(UiText.StringResource(R.string.email_password_incorrect)))
+                    } else {
+                        _events.send(LoginEvents.Error(result.error.asUiText()))
+                    }
+                }
 
+                is Result.Success -> {
+                    _state.update { newState->
+                        newState.copy(
+                            email = TextFieldValue(),
+                            password = TextFieldValue()
+                        )
+                    }
+                    _events.send(LoginEvents.LoginSuccess)
+                }
+            }
+        }
     }
 
     private fun updateEmail(email: TextFieldValue) {
         _state.update { newState ->
             newState.copy(
-                email = email
+                email = email,
+                isEmailValid = userDataValidator.isValidEmail(email.text)
             )
         }
     }
@@ -44,7 +85,7 @@ class LoginViewModel() : ViewModel() {
     private fun updatePassword(password: TextFieldValue) {
         _state.update { newState ->
             newState.copy(
-                password = password
+                password = password,
             )
         }
     }

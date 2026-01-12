@@ -71,7 +71,7 @@ fun NavGraphBuilder.auth(navHostController: NavHostController) {
                     }
                 },
                 onLoginSuccess = {
-                    navHostController.navigate(NavigationGraphs.Auth) {
+                    navHostController.navigate(NavigationGraphs.Run) {
                         popUpTo(NavigationGraphs.Auth) {
                             inclusive = true
                         }
