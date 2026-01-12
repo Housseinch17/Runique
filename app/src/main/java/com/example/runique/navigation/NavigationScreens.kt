@@ -1,4 +1,4 @@
-package com.example.runique
+package com.example.runique.navigation
 
 import kotlinx.serialization.Serializable
 

@@ -6,6 +6,8 @@ import androidx.datastore.dataStore
 import com.example.core.data.auth.AuthInfoSerializable
 import com.example.core.data.auth.AuthInfoSerializer
 import com.example.core.data.di.AuthInfoStoreQualifier
+import com.example.runique.MainViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val Context.authInfoDataStore: DataStore<AuthInfoSerializable?> by dataStore(
@@ -13,9 +15,11 @@ val Context.authInfoDataStore: DataStore<AuthInfoSerializable?> by dataStore(
     serializer = AuthInfoSerializer
 )
 
-val appModule = module{
+val appModule = module {
     single<DataStore<AuthInfoSerializable?>>(AuthInfoStoreQualifier) {
         //get applicationContext from koin
         get<Context>().authInfoDataStore
     }
+
+    viewModelOf(::MainViewModel)
 }
