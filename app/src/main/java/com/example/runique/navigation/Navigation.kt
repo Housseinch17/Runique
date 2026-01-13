@@ -12,6 +12,7 @@ import androidx.navigation.navigation
 import com.example.auth.presentation.intro.IntroRoot
 import com.example.auth.presentation.login.LoginRoot
 import com.example.auth.presentation.register.RegisterRoot
+import com.example.run.presentation.run_overview.RunOverviewRoot
 
 fun NavGraphBuilder.auth(navHostController: NavHostController) {
     navigation<NavigationGraphs.Auth>(
@@ -87,12 +88,7 @@ fun NavGraphBuilder.run(navHostController: NavHostController) {
         startDestination = NavigationScreens.Run
     ) {
         composable<NavigationScreens.Run>{
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Text("This is Run Screen!")
-            }
+            RunOverviewRoot()
         }
     }
 }
