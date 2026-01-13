@@ -15,4 +15,7 @@ sealed interface NavigationScreens {
 
     @Serializable
     data object Run: NavigationScreens
+
+    @Serializable
+    data object ActiveRun: NavigationScreens
 }

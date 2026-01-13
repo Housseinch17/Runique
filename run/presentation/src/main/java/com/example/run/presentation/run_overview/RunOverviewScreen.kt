@@ -24,12 +24,19 @@ import com.example.core.presentation.designsystem.components.RuniqueFloatingActi
 import com.example.core.presentation.designsystem.components.RuniqueScaffold
 import com.example.core.presentation.designsystem.components.RuniqueToolbar
 import com.example.core.presentation.designsystem.components.utils.DropDownItems
+import com.example.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RunOverviewRoot(
+    onStartRunClick: () -> Unit,
     runOverviewViewModel: RunOverviewViewModel = koinViewModel()
 ) {
+    ObserveAsEvents(runOverviewViewModel.events) { events->
+        when(events){
+            RunOverviewEvents.OnStartClick -> onStartRunClick()
+        }
+    }
     GradientBackground(hasToolbar = false) {
         RunOverviewScreen(
             onActions = runOverviewViewModel::onActions

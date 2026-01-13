@@ -1,10 +1,5 @@
 package com.example.runique.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -12,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.auth.presentation.intro.IntroRoot
 import com.example.auth.presentation.login.LoginRoot
 import com.example.auth.presentation.register.RegisterRoot
+import com.example.run.presentation.active_run.ActiveRunRoot
 import com.example.run.presentation.run_overview.RunOverviewRoot
 
 fun NavGraphBuilder.auth(navHostController: NavHostController) {
@@ -87,8 +83,15 @@ fun NavGraphBuilder.run(navHostController: NavHostController) {
     navigation<NavigationGraphs.Run>(
         startDestination = NavigationScreens.Run
     ) {
-        composable<NavigationScreens.Run>{
-            RunOverviewRoot()
+        composable<NavigationScreens.Run> {
+            RunOverviewRoot(
+                onStartRunClick = {
+                    navHostController.navigate(NavigationScreens.ActiveRun)
+                }
+            )
+        }
+        composable<NavigationScreens.ActiveRun> {
+            ActiveRunRoot()
         }
     }
 }
