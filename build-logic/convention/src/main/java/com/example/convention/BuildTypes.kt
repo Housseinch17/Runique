@@ -27,6 +27,8 @@ internal fun Project.configureBuildTypes(
             gradleLocalProperties(rootDir, rootProject.providers).getProperty("ACCESS_TOKEN_ROUTE")
         val refreshTokenRoute =
             gradleLocalProperties(rootDir, rootProject.providers).getProperty("REFRESH_TOKEN_ROUTE")
+        val mapsApiKey =
+            gradleLocalProperties(rootDir, rootProject.providers).getProperty("MAPS_API_KEY")
         when (extensionType) {
             ExtensionType.APPLICATION -> {
                 extensions.configure<ApplicationExtension> {
@@ -88,7 +90,7 @@ internal fun Project.configureBuildTypes(
 
 private fun BuildType.configureDebugBuildType(
     apiKey: String, baseUrl: String, registerRoute: String, loginRoute: String,
-    accessTokenRoute: String, refreshTokenRoute: String
+    accessTokenRoute: String, refreshTokenRoute: String, mapsApiKey: String
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
     buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
@@ -96,12 +98,14 @@ private fun BuildType.configureDebugBuildType(
     buildConfigField("String", "LOGIN_ROUTE", "\"$loginRoute\"")
     buildConfigField("String", "ACCESS_TOKEN_ROUTE", "\"$accessTokenRoute\"")
     buildConfigField("String", "REFRESH_TOKEN_ROUTE", "\"$refreshTokenRoute\"")
+    buildConfigField("String", "REFRESH_TOKEN_ROUTE", "\"$refreshTokenRoute\"")
+    buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
 }
 
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
     apiKey: String, baseUrl: String, registerRoute: String, loginRoute: String,
-    accessTokenRoute: String, refreshTokenRoute: String
+    accessTokenRoute: String, refreshTokenRoute: String, mapsApiKey: String
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
     buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
@@ -109,6 +113,7 @@ private fun BuildType.configureReleaseBuildType(
     buildConfigField("String", "LOGIN_ROUTE", "\"$loginRoute\"")
     buildConfigField("String", "ACCESS_TOKEN_ROUTE", "\"$accessTokenRoute\"")
     buildConfigField("String", "REFRESH_TOKEN_ROUTE", "\"$refreshTokenRoute\"")
+    buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
 
     isMinifyEnabled = true
     proguardFiles(
