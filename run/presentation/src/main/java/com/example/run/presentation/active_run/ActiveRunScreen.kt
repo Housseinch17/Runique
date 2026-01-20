@@ -65,6 +65,9 @@ fun ActiveRunScreen(
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { perms ->
+        //here perms will only check if now granted like if we grant notification
+        //but location denied it will ask again for permission only for location
+        //here the hasNotificationPermission will show false because not granted now even though it's granted before
         val hasCourseLocationPermission = perms[
             Manifest.permission.ACCESS_COARSE_LOCATION
         ] == true
@@ -93,12 +96,15 @@ fun ActiveRunScreen(
                 showNotificationPermissionRationale = showNotificationRationale
             )
         )
+        val locationPermissionGranted = context.hasLocationPermission()
+        val notificationPermissionGranted = context.hasNotificationPermission()
+
         //rationale will only show true when the user deny it first time at the same run
         //so if user deny and launch it again it will not show true for rationale
         //in this case we have to check if rationale is false for location and notification no dialog is showing
         //that's why when rationale is false we have to check if location or notification permissions not granted
         //to show dialog to take user to intent since permission can't be requested after many declines
-        if (!showLocationRationale && !showNotificationRationale && !(hasFineLocationPermission && hasNotificationPermission)) {
+        if (!showLocationRationale && !showNotificationRationale && !(locationPermissionGranted && notificationPermissionGranted)) {
             onActions(ActiveRunActions.ForcePermissionDialog)
         }
     }
