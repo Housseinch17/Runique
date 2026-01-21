@@ -41,6 +41,7 @@ internal fun Project.configureBuildTypes(
                                 loginRoute = loginRoute,
                                 accessTokenRoute = accessTokenRoute,
                                 refreshTokenRoute = refreshTokenRoute,
+                                mapsApiKey = mapsApiKey
                             )
                         }
                         release {
@@ -51,7 +52,8 @@ internal fun Project.configureBuildTypes(
                                 registerRoute = registerRoute,
                                 loginRoute = loginRoute,
                                 accessTokenRoute = accessTokenRoute,
-                                refreshTokenRoute = refreshTokenRoute
+                                refreshTokenRoute = refreshTokenRoute,
+                                mapsApiKey = mapsApiKey
                             )
                         }
                     }
@@ -67,7 +69,8 @@ internal fun Project.configureBuildTypes(
                                 registerRoute = registerRoute,
                                 loginRoute = loginRoute,
                                 accessTokenRoute = accessTokenRoute,
-                                refreshTokenRoute = refreshTokenRoute
+                                refreshTokenRoute = refreshTokenRoute,
+                                mapsApiKey = mapsApiKey
                             )
                         }
                         release {
@@ -78,7 +81,8 @@ internal fun Project.configureBuildTypes(
                                 registerRoute = registerRoute,
                                 loginRoute = loginRoute,
                                 accessTokenRoute = accessTokenRoute,
-                                refreshTokenRoute = refreshTokenRoute
+                                refreshTokenRoute = refreshTokenRoute,
+                                mapsApiKey = mapsApiKey
                             )
                         }
                     }

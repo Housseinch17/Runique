@@ -33,11 +33,11 @@ class ActiveRunViewModel(
         state.value.shouldTrack
     )
 
-    private val hasPermission = MutableStateFlow(false)
+    private val hasLocationPermission = MutableStateFlow(false)
 
     private val isTracking = combine(
         shouldTrack,
-        hasPermission,
+        hasLocationPermission,
     ) { shouldTrack, hasPermission ->
         shouldTrack && hasPermission
     }.stateIn(
@@ -47,7 +47,7 @@ class ActiveRunViewModel(
     )
 
     init {
-        hasPermission
+        hasLocationPermission
             .onEach { hasPermission ->
                 if (hasPermission) {
                     runningTracker.startObservingLocation()
@@ -93,9 +93,6 @@ class ActiveRunViewModel(
     fun onActions(actions: ActiveRunActions) {
         when (actions) {
             ActiveRunActions.OnBackClick -> onBackClick()
-            ActiveRunActions.OnDismissDialog -> {
-
-            }
 
             ActiveRunActions.OnFinishRunClick -> {
 
@@ -119,13 +116,14 @@ class ActiveRunViewModel(
             ActiveRunActions.DismissRationaleDialog -> dismissRationaleDialog()
             ActiveRunActions.ForcePermissionDialog -> forcePermissionDialog()
             ActiveRunActions.DismissPermissionDialog -> dismissPermissionDialog()
-            is ActiveRunActions.SubmitLocationPermissionInfo -> submitLocationPermissionInfo(
-                acceptedLocationPermission = actions.acceptedLocationPermission,
-                showLocationPermissionRationale = actions.showLocationPermissionRationale,
-            )
+            is ActiveRunActions.SubmitLocationPermissionInfo -> {
+                hasLocationPermission.value = actions.acceptedLocationPermission
+                submitLocationPermissionInfo(
+                    showLocationPermissionRationale = actions.showLocationPermissionRationale,
+                )
+            }
 
             is ActiveRunActions.SubmitNotificationPermissionInfo -> submitNotificationPermissionInfo(
-                acceptedNotificationPermission = actions.acceptedNotificationPermission,
                 showNotificationPermissionRationale = actions.showNotificationPermissionRationale
             )
 
@@ -169,24 +167,20 @@ class ActiveRunViewModel(
     }
 
     private fun submitLocationPermissionInfo(
-        acceptedLocationPermission: Boolean,
         showLocationPermissionRationale: Boolean
     ) {
         _state.update { newState ->
             newState.copy(
-                hasLocationPermission = acceptedLocationPermission,
                 showLocationRationale = showLocationPermissionRationale
             )
         }
     }
 
     private fun submitNotificationPermissionInfo(
-        acceptedNotificationPermission: Boolean,
         showNotificationPermissionRationale: Boolean
     ) {
         _state.update { newState ->
             newState.copy(
-                hasNotificationPermission = acceptedNotificationPermission,
                 showNotificationRationale = showNotificationPermissionRationale
             )
         }
