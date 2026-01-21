@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.presentation.designsystem.RuniqueTheme
 import com.example.core.presentation.designsystem.StartIcon
 import com.example.core.presentation.designsystem.StopIcon
+import com.example.core.presentation.designsystem.components.RuniqueActionButton
 import com.example.core.presentation.designsystem.components.RuniqueDialog
 import com.example.core.presentation.designsystem.components.RuniqueFloatingActionButton
 import com.example.core.presentation.designsystem.components.RuniqueOutlinedActionButton
@@ -182,6 +183,35 @@ fun ActiveRunScreen(
             )
         }
     }
+
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RuniqueDialog(
+            title = stringResource(R.string.running_is_paused),
+            onDismiss = {
+                onActions(ActiveRunActions.OnResumeRunClick)
+            },
+            description = stringResource(R.string.resume_or_finish_run),
+            primaryButton = {
+                RuniqueActionButton(
+                    text = stringResource(R.string.resume),
+                    isLoading = false,
+                    onClick = {
+                        onActions(ActiveRunActions.OnResumeRunClick)
+                    }
+                )
+            },
+            secondaryButton = {
+                RuniqueOutlinedActionButton(
+                  text = stringResource(R.string.finish),
+                    isLoading = state.isSavingRun,
+                    onClick = {
+                        onActions(ActiveRunActions.OnFinishRunClick)
+                    }
+                )
+            }
+        )
+    }
+
     if (state.showLocationRationale || state.showNotificationRationale) {
         RuniqueDialog(
             title = stringResource(R.string.permission_required),

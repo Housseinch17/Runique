@@ -1,6 +1,5 @@
 package com.example.run.presentation.active_run
 
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.run.domain.RunningTracker
@@ -10,6 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -25,12 +25,12 @@ class ActiveRunViewModel(
     private val _events = Channel<ActiveRunEvents>()
     val events = _events.receiveAsFlow()
 
-    private val shouldTrack = snapshotFlow {
-        _state.value.shouldTrack
+    private val shouldTrack = _state.map {
+        it.shouldTrack
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
-        state.value.shouldTrack
+        _state.value.shouldTrack
     )
 
     private val hasLocationPermission = MutableStateFlow(false)

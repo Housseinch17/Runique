@@ -65,7 +65,7 @@ fun RunDataCart(
             )
             RunDataItem(
                 modifier = Modifier.defaultMinSize(minWidth = 75.dp),
-                title = stringResource(R.string.distance),
+                title = stringResource(R.string.pace),
                 value = elapsedTime.toFormattedPace(distanceKm = (runData.distanceMeters) / 1000.0)
             )
         }
