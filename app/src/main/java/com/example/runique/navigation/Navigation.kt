@@ -1,14 +1,18 @@
 package com.example.runique.navigation
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.example.auth.presentation.intro.IntroRoot
 import com.example.auth.presentation.login.LoginRoot
 import com.example.auth.presentation.register.RegisterRoot
 import com.example.run.presentation.active_run.ActiveRunRoot
+import com.example.run.presentation.active_run.service.ActiveRunService
 import com.example.run.presentation.run_overview.RunOverviewRoot
+import com.example.runique.MainActivity
 
 fun NavGraphBuilder.auth(navHostController: NavHostController) {
     navigation<NavigationGraphs.Auth>(
@@ -90,8 +94,30 @@ fun NavGraphBuilder.run(navHostController: NavHostController) {
                 }
             )
         }
-        composable<NavigationScreens.ActiveRun> {
-            ActiveRunRoot()
+        composable<NavigationScreens.ActiveRun>(
+            deepLinks =
+                listOf(
+                    navDeepLink {
+                        uriPattern = "runique://active_run"
+                    }
+                )) {
+            val context = LocalContext.current
+            ActiveRunRoot(
+                onServiceToggle = { shouldServiceRun ->
+                    if (shouldServiceRun) {
+                        context.startService(
+                            ActiveRunService.createStartIntent(
+                                context = context,
+                                activityClass = MainActivity::class.java
+                            )
+                        )
+                    } else {
+                        context.startService(
+                            ActiveRunService.createStopIntent(context = context)
+                        )
+                    }
+                }
+            )
         }
     }
 }

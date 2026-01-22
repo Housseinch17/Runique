@@ -40,6 +40,7 @@ import com.example.core.presentation.designsystem.components.RuniqueToolbar
 import com.example.run.presentation.R
 import com.example.run.presentation.active_run.components.RunDataCart
 import com.example.run.presentation.active_run.maps.TrackerMap
+import com.example.run.presentation.active_run.service.ActiveRunService
 import com.example.run.presentation.util.hasLocationPermission
 import com.example.run.presentation.util.hasNotificationPermission
 import com.example.run.presentation.util.shouldShowLocationPermissionRationale
@@ -48,11 +49,13 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ActiveRunRoot(
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     activeRunViewModel: ActiveRunViewModel = koinViewModel()
 ) {
     val state by activeRunViewModel.state.collectAsStateWithLifecycle()
     ActiveRunScreen(
         state = state,
+        onServiceToggle = onServiceToggle,
         onActions = activeRunViewModel::onActions,
     )
 }
@@ -60,6 +63,7 @@ fun ActiveRunRoot(
 @Composable
 fun ActiveRunScreen(
     state: ActiveRunState,
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     onActions: (ActiveRunActions) -> Unit,
 ) {
     val context = LocalContext.current
@@ -133,6 +137,17 @@ fun ActiveRunScreen(
         }
     }
 
+    LaunchedEffect(key1 = state.isRunFinished) {
+        if (state.isRunFinished) {
+            onServiceToggle(false)
+        }
+    }
+
+    LaunchedEffect(key1 = state.shouldTrack) {
+        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+            onServiceToggle(true)
+        }
+    }
     RuniqueScaffold(
         withGradient = false,
         topAppBar = {
@@ -202,7 +217,7 @@ fun ActiveRunScreen(
             },
             secondaryButton = {
                 RuniqueOutlinedActionButton(
-                  text = stringResource(R.string.finish),
+                    text = stringResource(R.string.finish),
                     isLoading = state.isSavingRun,
                     onClick = {
                         onActions(ActiveRunActions.OnFinishRunClick)
@@ -316,7 +331,9 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermission(
 fun ActiveRunScreenPreview() {
     RuniqueTheme {
         ActiveRunScreen(
-            ActiveRunState()
-        ) {}
+            ActiveRunState(),
+            onServiceToggle = {},
+            onActions = {}
+        )
     }
 }
